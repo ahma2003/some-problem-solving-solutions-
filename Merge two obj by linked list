@@ -1,0 +1,84 @@
+The Problem Is To Marge Between Two Array By Linked list .
+
+
+Soultion :
+
+
+#include <iostream>
+using namespace std;
+struct node{
+
+	int item;
+	node* next;
+	node* prev;
+};
+class linkedList {
+public:
+	node* head = new node;
+	node* last = new node;
+	int count = 0;
+	linkedList() {
+		head = last = NULL;
+	}
+	void insertlast(int item)
+	{
+		node* p = new node;
+		p->item = item;
+		if (count == 0)
+		{
+			last = head = p;
+			p->next = p->prev = NULL;
+		}
+		else
+		{
+			last->next = p;
+			p->prev = last;
+			p->next = NULL; last = p;
+
+		}
+		count++;
+	}
+	void display()
+	{
+		node* temp = head;
+		while (temp != NULL) {
+			cout << temp->item << " ";
+			temp = temp->next;
+			
+		
+
+		}
+	}
+ };
+void marge(linkedList a, linkedList b) {
+	
+	while (a.head != NULL && b.last != NULL) {
+		cout << a.head->item << " " << b.last->item<<" ";
+		a.head = a.head->next;
+		b.last = b.last->prev;
+
+
+	}
+	cout << a.head->item;
+}
+int main()
+{
+	linkedList a,b;
+	int x;
+	cin >> x;
+	while (x != -1) {
+		
+		a.insertlast(x);
+		cin >> x;
+		}
+	int y;
+	cin >> y;
+	while (y != -1) {
+
+		b.insertlast(y);
+		cin >> y;
+	}
+	marge(a, b);
+	return 0;
+}
+
