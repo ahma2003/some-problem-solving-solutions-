@@ -1,0 +1,139 @@
+question link : https://codeforces.com/gym/103496/problem/J
+
+soultion: 
+#include <iostream>
+#include <iomanip>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<stack>
+#include<queue>
+#include<map>
+#include<set>
+#include<bitset>
+#define ll long long
+using namespace std;
+void fast() { ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL); }
+long long gcd(long long a, long long b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
+/// <summary>
+/// 
+/// 9 100
+///aaaaa****  
+/// </summary>
+/// <returns></returns>
+int main() {
+    fast();
+    ll n,m,c=0,sum=0;
+    string x;
+    cin >> n >> m >> x;
+    vector<ll>star;
+    for (int i = 0; i < n; i++) {
+        if (x[i] == 'A') {
+            sum++;
+        }
+        else if (x[i] == 'J' || x[i] == 'Q' || x[i] == 'K' || x[i] == 'T') {
+            sum+=10;
+        }
+        else if (x[i] == '*') {
+            star.push_back(i);
+            c++;
+        }
+        else
+            sum += (ll)(x[i] - '0');
+    }
+   // cout << sum << "\n";
+
+    if (m == sum &&c==0 ) {
+        cout << "YES\n"<<x;
+    }
+    else if ((m == sum &&c>0)|| (m != sum && c == 0)) {
+        cout << "NO";
+    }
+
+    else {
+        ll mod, a, indx;
+        a = m - sum;
+        if (a <= c * 10) {
+
+            if (a % c) {
+                if (a % c) {
+                    vector<ll>vec(c, a / c);//اللي هيتوزع ع الاماكن
+                    mod = (a % c);//المتبقي بعد توزيع الدف ع الاماكن
+
+                    for (int i = 0; i < c; i++) {
+                        if (mod == 0)
+                            break;
+                        else if (10 - vec[i] > mod) {
+                            vec[i] += mod;
+                            mod = 0;
+                        }
+                        else {
+                            mod = mod - (10 - vec[i]);
+                            vec[i] = 10;
+
+                        }
+                    }
+
+                    if (mod) {
+                        cout << "NO";
+                        return 0;
+                    }
+
+                    else {
+                        for (int i = 0; i < c; i++) {
+                            if (vec[i] == 0 || vec[i] > 10) {
+                                cout << "NO";
+                                return 0;
+                            }
+                            //indx = find(x.begin(), x.end(), '*') - x.begin();
+                            if (vec[i] == 1) {
+                                x[star[i]] = 'A';
+                            }
+                            else if (vec[i] == 10)
+                            {
+                                x[star[i]] = 'K';
+                            }
+                            else {
+                                x[star[i]] = abs(vec[i]) + '0';
+                            }
+                        }
+                    }
+                }
+            }
+                else {
+                    vector<ll>vec(c, a / c);
+
+                    if (a / c > 10 || a / c == 0) {
+                        cout << "NO";
+                        return 0;
+                    }
+
+                    for (int i = 0; i < c; i++) {
+                        // indx = find(x.begin(), x.end(), '*') - x.begin();
+                        if (vec[i] == 1) {
+                            x[star[i]] = 'A';
+                        }
+                        else if (vec[i] == 10)
+                        {
+                            x[star[i]] = 'K';
+                        }
+                        else {
+                            x[star[i]] = abs(vec[i]) + '0';
+                        }
+                    }
+
+                }
+
+                cout << "YES\n" << x;
+            
+            
+        }
+        else
+            cout << "NO\n";
+    }
+    return 0;
+    }
